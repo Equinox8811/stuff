@@ -98,6 +98,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		//if(event.getSource()==miMisPlantillas)
 		if(event.getSource()==miGuardarPlantilla)
 		{
+
 			JOptionPane.showMessageDialog(null,plantillaAD.add(editorIUG.getNombre(), editorIUG.getDatos()));
 		}
 		if(event.getSource()==miAbrirArchivo)

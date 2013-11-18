@@ -1,9 +1,9 @@
 import java.util.*;
 import java.io.*;
+import javax.swing.*;
 
 public class PlantillaAD
 {
-	private PlantillaDP actual;
 	private BufferedReader archivoEntrada, archivoEntradaNuevo;
 	private PrintWriter archivoSalida, archivoSalidaNuevo; 
 
@@ -44,7 +44,7 @@ public class PlantillaAD
 		String respuesta = "";
 
 		PlantillaDP temporal = new PlantillaDP(nombre, contenido);
-		listaPlantillas.add(actual);
+		listaPlantillas.add(temporal);
 		
 		try 
 		{
@@ -73,9 +73,12 @@ public class PlantillaAD
 	public String getNombres()
 	{
 		String respuesta = "";
-		for(int i=0; i<listaPlantillas.size();i++)
+		int i;
+		JOptionPane.showMessageDialog(null, listaPlantillas.size());
+		for(i=0; i<listaPlantillas.size();i++)
 		{
 			PlantillaDP temporal = (PlantillaDP)listaPlantillas.get(i);
+			JOptionPane.showMessageDialog(null,temporal.getNombre());
 			respuesta = respuesta+temporal.getNombre()+"&";
 		}
 		return respuesta;

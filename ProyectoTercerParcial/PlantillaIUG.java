@@ -11,7 +11,7 @@ public class PlantillaIUG implements ActionListener
 
 	public PlantillaIUG(String nombres, int tamano)
 	{
-		
+		JOptionPane.showMessageDialog(null, nombres);
 		StringTokenizer st = new StringTokenizer(nombres,"&");
 		botones = new JButton[tamano];
 		String nombreBoton;
