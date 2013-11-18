@@ -4,8 +4,8 @@ import java.io.*;
 public class PlantillaAD
 {
 	private PlantillaDP actual;
-	private BufferedReader archivoEntrada;
-	private PrintWriter archivoSalida;
+	private BufferedReader archivoEntrada, archivoEntradaNuevo;
+	private PrintWriter archivoSalida, archivoSalidaNuevo; 
 
 	private LinkedList listaPlantillas;
 
@@ -43,19 +43,23 @@ public class PlantillaAD
 	{
 		String respuesta = "";
 
-		actual = new PlantillaDP(nombre, contenido);
+		PlantillaDP temporal = new PlantillaDP(nombre, contenido);
 		listaPlantillas.add(actual);
+		
 		try 
 		{
-			archivoSalida = new PrintWriter(new FileWriter("indice.txt"),false);
-			archivoSalida.println(actual.getNombre());
-			respuesta = "Plantilla guardada Exitosamente";
+			File directorio = new File("plantillas");
+			directorio.mkdir();
+			archivoSalida = new PrintWriter(new FileWriter("indice.txt",true));
+			archivoSalida.println(temporal.getNombre());
 			archivoSalida.close();
-		}
-		catch(FileNotFoundException inte)
-		{
-			System.out.println("Error "+ inte);
-			respuesta = "Fallo al escribir el archivo";
+
+			archivoSalidaNuevo = new PrintWriter(new FileWriter("plantillas/"+nombre+".txt"),false);
+			archivoSalidaNuevo.println(temporal.getContenido());
+			archivoSalidaNuevo.close();
+
+			respuesta = "Plantilla guardada Exitosamente";
+
 		}
 		catch(IOException ioe)
 		{
@@ -82,5 +86,22 @@ public class PlantillaAD
 
 		return listaPlantillas.size();
 	}
-	
+	public String getContenido(String nombre)
+	{
+		String datos ="";
+		try
+		{
+			archivoEntrada = new BufferedReader(new FileReader(nombre + ".txt"));
+			while(archivoEntrada.ready())
+			{
+				datos = datos +"\n" +archivoEntrada.readLine();
+			}
+			archivoEntrada.close();
+		}
+		catch(IOException ioe)
+		{
+
+		}
+		return datos;
+	}
 }

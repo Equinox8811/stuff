@@ -1,8 +1,10 @@
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class EditorIUG
+public class EditorIUG implements ActionListener
 {
 	private JPanel panelFlow = new JPanel();
 	private JPanel panel = new JPanel();
@@ -12,6 +14,8 @@ public class EditorIUG
 	private JTextField tfNombre = new JTextField();
 	private JButton bGuardar, bDescartar; 
 
+	private EditorAD editorAD = new EditorAD();
+
 	public EditorIUG()
 	{
 		panelFlow.setLayout(new FlowLayout());
@@ -20,10 +24,12 @@ public class EditorIUG
 		panel3.setLayout(new GridLayout(2,2));
 
 		bGuardar = new JButton("Guardar");
+		bGuardar.addActionListener(this);
 		bDescartar = new JButton("Descartar");
+		bDescartar.addActionListener(this);
 
 	
-		panel2.add(new JLabel("Nombre del archivo"));
+		panel2.add(new JLabel("Nombre del archivo:  "));
 		panel2.add(tfNombre);
 		panel2.add(new JLabel(""));
 		panel2.add(new JLabel(""));
@@ -38,6 +44,15 @@ public class EditorIUG
 
 		panelFlow.add(panel);
 		panelFlow.add(new JScrollPane(taDatos));
+	}
+
+	public JPanel abrirArchivo(String nombre)
+	{
+		String datos = "";
+		datos = editorAD.abrirArchivo(nombre);
+		tfNombre.setText(nombre);
+		taDatos.setText(datos);
+		return panelFlow;
 	}
 
 	public JPanel getPanel()
@@ -63,5 +78,28 @@ public class EditorIUG
 	public String getDatos()
 	{
 		return taDatos.getText();
+	}
+
+	public void actionPerformed(ActionEvent event)
+	{
+		if(event.getSource()==bGuardar)
+		{
+			if(tfNombre.getText().equals(""))
+			{
+				JOptionPane.showMessageDialog(null,"Debes proporcionar un nombre de archivo");
+			}
+			else
+			{
+				String nombre = tfNombre.getText();
+				String datos = taDatos.getText();
+				String respuesta =editorAD.guardarArchivo(nombre, datos);
+				JOptionPane.showMessageDialog(null, respuesta);
+			}
+		}
+		if(event.getSource()==bDescartar)
+		{
+			taDatos.setText("");
+			tfNombre.setText("");
+		}
 	}
 }

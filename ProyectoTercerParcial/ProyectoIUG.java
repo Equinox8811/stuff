@@ -8,16 +8,16 @@ public class ProyectoIUG extends JFrame implements ActionListener
 	private JMenuBar menuBar;
 	private JMenu menuArchivos;
 	private JMenu menuPlantillas;
-	private JMenuItem miPlantillas, miMisPlantillas, miGuardarPlantilla;
-	private JMenuItem miArchivoNuevo, miAbrirArchivo, miGuardarArchivo, miGuardarArchivoComo, miSalir; 
+	private JMenuItem miPlantillas, miGuardarPlantilla;
+	private JMenuItem miArchivoNuevo, miAbrirArchivo, miSalir; 
 
 	private JTextArea taDatos = new JTextArea();
 	private JPanel panel = new JPanel();
-	private JPanel panelPlantillas = new JPanel();
-	private JPanel panelEditor = new JPanel();
+	
 
 	private PlantillaAD plantillaAD = new PlantillaAD(); 
 	private PlantillaIUG plantillaIUG;
+	private EditorIUG editorIUG = new EditorIUG();
 
 	public ProyectoIUG()
 	{
@@ -28,36 +28,27 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		menuPlantillas = new JMenu("Plantillas");
 
 		miPlantillas = new JMenuItem("Plantillas");
-		miMisPlantillas = new JMenuItem("Mis Plantillas");
 		miGuardarPlantilla = new JMenuItem("Guardar Plantilla");
 
 		miArchivoNuevo = new JMenuItem("Archivo Nuevo");
 		miAbrirArchivo = new JMenuItem("Abrir Archivo");
-		miGuardarArchivo = new JMenuItem("Guardar Archivo");
-		miGuardarArchivoComo = new JMenuItem("Guardar como");
 		miSalir = new JMenuItem("Salir");
 
 		menuPlantillas.add(miPlantillas);
-		menuPlantillas.add(miMisPlantillas);
 		menuPlantillas.add(miGuardarPlantilla);
 
 		menuArchivos.add(miArchivoNuevo);
 		menuArchivos.add(miAbrirArchivo);
-		menuArchivos.add(miGuardarArchivo);
-		menuArchivos.add(miGuardarArchivoComo);
 		menuArchivos.add(miSalir);
 
 		menuBar.add(menuArchivos);
 		menuBar.add(menuPlantillas);
 
 		miPlantillas.addActionListener(this);
-		miMisPlantillas.addActionListener(this);
 		miGuardarPlantilla.addActionListener(this);
 
 		miArchivoNuevo.addActionListener(this);
 		miAbrirArchivo.addActionListener(this);
-		miGuardarArchivo.addActionListener(this);
-		miGuardarArchivoComo.addActionListener(this);
 		miSalir.addActionListener(this);
 
 		setJMenuBar(menuBar);
@@ -65,13 +56,23 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		panel.setLayout(new GridLayout(1,1));
 		add(panel);
 
-		panelEditor.add(new JScrollPane(taDatos));
-
 		setVisible(true);
-		setSize(500,500);
+		setSize(700,700);
 		plantillaAD.iniciar();
 	}
 
+	public void ocultarPaneles()
+	{
+		panel.setVisible(false);
+		editorIUG.getPanel().setVisible(false);
+		try{
+			plantillaIUG.getPanel().setVisible(false);		
+		}
+		catch(NullPointerException e)
+		{
+
+		}
+	}
 	public void actionPerformed(ActionEvent event)
 	{
 
@@ -80,18 +81,36 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		if(event.getSource()==miPlantillas)
 		{
 			plantillaIUG = new PlantillaIUG(plantillaAD.getNombres(), plantillaAD.getTamano());
+			ocultarPaneles();
 			plantillaIUG.getPanel().setVisible(true);
 			add(plantillaIUG.getPanel());
 			setVisible(true);
 		}
-			
-		/*if(event.getSource()==miMisPlantillas)
-		if(event.getSource()==miGuardarPlantilla)
 
+		if(event.getSource()==miArchivoNuevo)
+		{
+			ocultarPaneles();
+			editorIUG.getPanel().setVisible(true);
+			add(editorIUG.getPanel());
+			setVisible(true);
+		}
+			
+		//if(event.getSource()==miMisPlantillas)
+		if(event.getSource()==miGuardarPlantilla)
+		{
+			JOptionPane.showMessageDialog(null,plantillaAD.add(editorIUG.getNombre(), editorIUG.getDatos()));
+		}
 		if(event.getSource()==miAbrirArchivo)
-		if(event.getSource()==miGuardarArchivo)
-		if(event.getSource()==miGuardarArchivoComo)*/
-		
+		{
+			String nombre = JOptionPane.showInputDialog("Nombre de archivo a abrir");
+
+			ocultarPaneles();
+			editorIUG.abrirArchivo(nombre).setVisible(true);
+			editorIUG.getPanel().setVisible(true);
+			add(editorIUG.getPanel());
+			setVisible(true);
+
+		}
 		
 	}
 	
