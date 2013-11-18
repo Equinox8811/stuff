@@ -23,9 +23,9 @@ public class EditorIUG implements ActionListener
 		panel2.setLayout(new GridLayout(2,2));
 		panel3.setLayout(new GridLayout(2,2));
 
-		bGuardar = new JButton("Guardar");
+		bGuardar = new JButton("Guardar Archivo");
 		bGuardar.addActionListener(this);
-		bDescartar = new JButton("Descartar");
+		bDescartar = new JButton("Limpiar Campos");
 		bDescartar.addActionListener(this);
 
 	

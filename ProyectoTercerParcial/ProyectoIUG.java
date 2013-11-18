@@ -28,7 +28,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		menuPlantillas = new JMenu("Plantillas");
 
 		miPlantillas = new JMenuItem("Plantillas");
-		miGuardarPlantilla = new JMenuItem("Guardar Plantilla");
+		miGuardarPlantilla = new JMenuItem("Guardar como Plantilla");
 
 		miArchivoNuevo = new JMenuItem("Archivo Nuevo");
 		miAbrirArchivo = new JMenuItem("Abrir Archivo");
@@ -80,8 +80,8 @@ public class ProyectoIUG extends JFrame implements ActionListener
 			System.exit(0);
 		if(event.getSource()==miPlantillas)
 		{
-			plantillaIUG = new PlantillaIUG(plantillaAD.getNombres(), plantillaAD.getTamano());
 			ocultarPaneles();
+			plantillaIUG = new PlantillaIUG(plantillaAD.getNombres(), plantillaAD.getTamano());
 			plantillaIUG.getPanel().setVisible(true);
 			add(plantillaIUG.getPanel());
 			setVisible(true);
@@ -98,7 +98,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		//if(event.getSource()==miMisPlantillas)
 		if(event.getSource()==miGuardarPlantilla)
 		{
-
+			ocultarPaneles();
 			JOptionPane.showMessageDialog(null,plantillaAD.add(editorIUG.getNombre(), editorIUG.getDatos()));
 		}
 		if(event.getSource()==miAbrirArchivo)

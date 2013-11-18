@@ -19,7 +19,7 @@ public class PlantillaAD
 		String datos = "";
 		try
 		{
-			archivoEntrada = new BufferedReader(new FileReader("indice.txt"));
+			archivoEntrada = new BufferedReader(new FileReader("indice.dat"));
 			while(archivoEntrada.ready())
 			{
 				datos = archivoEntrada.readLine();
@@ -42,29 +42,50 @@ public class PlantillaAD
 	public String add(String nombre, String contenido)
 	{
 		String respuesta = "";
-
-		PlantillaDP temporal = new PlantillaDP(nombre, contenido);
-		listaPlantillas.add(temporal);
-		
-		try 
+		boolean repetido = false;
+		if(nombre.equals(""))
 		{
-			File directorio = new File("plantillas");
-			directorio.mkdir();
-			archivoSalida = new PrintWriter(new FileWriter("indice.txt",true));
-			archivoSalida.println(temporal.getNombre());
-			archivoSalida.close();
-
-			archivoSalidaNuevo = new PrintWriter(new FileWriter("plantillas/"+nombre+".txt"),false);
-			archivoSalidaNuevo.println(temporal.getContenido());
-			archivoSalidaNuevo.close();
-
-			respuesta = "Plantilla guardada Exitosamente";
-
+			respuesta = "La plantilla debe de tener nombre";
 		}
-		catch(IOException ioe)
+		else
 		{
-			System.out.println("Error "+ ioe);
-			respuesta = "Fallo al escribir el archivo";
+			for (int i=0;i<listaPlantillas.size();i++ ) 
+			{
+				PlantillaDP temporalRepetido = (PlantillaDP)listaPlantillas.get(i);
+				if (nombre.equals(temporalRepetido.getNombre())) 
+				{
+					repetido = true;
+				}
+			}
+			if(!repetido)
+			{
+				PlantillaDP temporal = new PlantillaDP(nombre, contenido);
+				listaPlantillas.add(temporal);
+				try 
+				{
+					File directorio = new File("plantillas");
+					directorio.mkdir();
+					archivoSalida = new PrintWriter(new FileWriter("indice.dat",true));
+					archivoSalida.println(temporal.getNombre());
+					archivoSalida.close();
+
+					archivoSalidaNuevo = new PrintWriter(new FileWriter("plantillas/"+nombre+".dat"),false);
+					archivoSalidaNuevo.println(temporal.getContenido());
+					archivoSalidaNuevo.close();
+
+					respuesta = "Plantilla guardada Exitosamente";
+
+				}
+				catch(IOException ioe)
+				{
+					System.out.println("Error "+ ioe);
+					respuesta = "Fallo al escribir el archivo";
+				}
+			}
+			else
+			{
+				respuesta = "El nombre de la plantilla ya existe";
+			}
 		}
 		
 		return respuesta;
@@ -74,11 +95,11 @@ public class PlantillaAD
 	{
 		String respuesta = "";
 		int i;
-		JOptionPane.showMessageDialog(null, listaPlantillas.size());
+		//JOptionPane.showMessageDialog(null, listaPlantillas.size());
 		for(i=0; i<listaPlantillas.size();i++)
 		{
 			PlantillaDP temporal = (PlantillaDP)listaPlantillas.get(i);
-			JOptionPane.showMessageDialog(null,temporal.getNombre());
+			//JOptionPane.showMessageDialog(null,temporal.getNombre());
 			respuesta = respuesta+temporal.getNombre()+"&";
 		}
 		return respuesta;
@@ -94,7 +115,7 @@ public class PlantillaAD
 		String datos ="";
 		try
 		{
-			archivoEntrada = new BufferedReader(new FileReader(nombre + ".txt"));
+			archivoEntrada = new BufferedReader(new FileReader("plantillas/"+nombre + ".dat"));
 			while(archivoEntrada.ready())
 			{
 				datos = datos +"\n" +archivoEntrada.readLine();
@@ -103,7 +124,7 @@ public class PlantillaAD
 		}
 		catch(IOException ioe)
 		{
-
+			System.out.println(ioe);
 		}
 		return datos;
 	}
