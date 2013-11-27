@@ -21,7 +21,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 
 	public ProyectoIUG()
 	{
-		super("Editor de Texto");
+		super("Editor de Markdown");
 
 		menuBar = new JMenuBar();
 		menuArchivos = new JMenu("Archivo");

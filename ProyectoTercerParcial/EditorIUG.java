@@ -94,8 +94,14 @@ public class EditorIUG implements ActionListener
 				Object tipoArchivo = JOptionPane.showInputDialog(null,"Escoge el tipo de archivo", "Input",JOptionPane.INFORMATION_MESSAGE, null,valoresPosibles, valoresPosibles[0]);
 				String nombre = tfNombre.getText();
 				String datos = taDatos.getText();
-				String respuesta =editorAD.guardarArchivo(nombre, datos, tipoArchivo.toString());
-				JOptionPane.showMessageDialog(null, respuesta);
+				try{
+					String respuesta =editorAD.guardarArchivo(nombre, datos, tipoArchivo.toString());
+					JOptionPane.showMessageDialog(null, respuesta);
+				}
+				catch(NullPointerException npe)
+				{
+					//pass
+				}
 			}
 		}
 		if(event.getSource()==bDescartar)
