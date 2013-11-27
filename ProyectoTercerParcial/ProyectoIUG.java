@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ProyectoIUG extends JFrame implements ActionListener
 {
@@ -103,14 +104,22 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		}
 		if(event.getSource()==miAbrirArchivo)
 		{
-			String nombre = JOptionPane.showInputDialog("Nombre de archivo a abrir");
-
 			ocultarPaneles();
-			editorIUG.abrirArchivo(nombre).setVisible(true);
-			editorIUG.getPanel().setVisible(true);
-			add(editorIUG.getPanel());
-			setVisible(true);
-
+			JFileChooser chooser = new JFileChooser();
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt");
+		    chooser.setFileFilter(filter);
+		    int returnVal = chooser.showOpenDialog(null);
+		    if(returnVal == JFileChooser.APPROVE_OPTION) {
+		    	System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+		    	String nombre = chooser.getSelectedFile().getName();
+		    	String ruta = chooser.getSelectedFile().getAbsolutePath();
+		    	//String nombre = JOptionPane.showInputDialog("Nombre de archivo a abrir");
+		    	editorIUG.abrirArchivo(ruta,nombre).setVisible(true);
+				editorIUG.getPanel().setVisible(true);
+				add(editorIUG.getPanel());
+				setVisible(true);
+		   }
+			
 		}
 		
 	}

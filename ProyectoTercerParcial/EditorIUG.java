@@ -44,12 +44,13 @@ public class EditorIUG implements ActionListener
 
 		panelFlow.add(panel);
 		panelFlow.add(new JScrollPane(taDatos));
+		panelFlow.add(new JLabel("Si quieres saber mas de Markdown visita http://daringfireball.net/projects/markdown/syntax "));
 	}
 
-	public JPanel abrirArchivo(String nombre)
+	public JPanel abrirArchivo(String ruta, String nombre)
 	{
 		String datos = "";
-		datos = editorAD.abrirArchivo(nombre);
+		datos = editorAD.abrirArchivo(ruta);
 		tfNombre.setText(nombre);
 		taDatos.setText(datos);
 		return panelFlow;
@@ -94,14 +95,8 @@ public class EditorIUG implements ActionListener
 				Object tipoArchivo = JOptionPane.showInputDialog(null,"Escoge el tipo de archivo", "Input",JOptionPane.INFORMATION_MESSAGE, null,valoresPosibles, valoresPosibles[0]);
 				String nombre = tfNombre.getText();
 				String datos = taDatos.getText();
-				try{
-					String respuesta =editorAD.guardarArchivo(nombre, datos, tipoArchivo.toString());
-					JOptionPane.showMessageDialog(null, respuesta);
-				}
-				catch(NullPointerException npe)
-				{
-					//pass
-				}
+				String respuesta =editorAD.guardarArchivo(nombre, datos, tipoArchivo.toString());
+				JOptionPane.showMessageDialog(null, respuesta);
 			}
 		}
 		if(event.getSource()==bDescartar)

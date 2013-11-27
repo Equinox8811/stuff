@@ -18,7 +18,7 @@ public class EditorAD
 		String datos = "";
 		try
 		{
-			archivoEntrada = new BufferedReader(new FileReader("archivos/"+nombre+".txt"));
+			archivoEntrada = new BufferedReader(new FileReader(nombre));
 			while(archivoEntrada.ready())
 			{
 				datos = datos +archivoEntrada.readLine()+"\n";
