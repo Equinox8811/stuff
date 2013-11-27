@@ -90,9 +90,11 @@ public class EditorIUG implements ActionListener
 			}
 			else
 			{
+				Object[] valoresPosibles = { "Texto plano", "PDF", "HTML" };
+				Object tipoArchivo = JOptionPane.showInputDialog(null,"Escoge el tipo de archivo", "Input",JOptionPane.INFORMATION_MESSAGE, null,valoresPosibles, valoresPosibles[0]);
 				String nombre = tfNombre.getText();
 				String datos = taDatos.getText();
-				String respuesta =editorAD.guardarArchivo(nombre, datos);
+				String respuesta =editorAD.guardarArchivo(nombre, datos, tipoArchivo.toString());
 				JOptionPane.showMessageDialog(null, respuesta);
 			}
 		}

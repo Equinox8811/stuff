@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import com.github.rjeschke.txtmark.Processor;
 
 public class EditorAD
 {
@@ -30,16 +31,26 @@ public class EditorAD
 		return datos;
 	}
 
-	public String guardarArchivo(String nombre, String datos)
+	public String guardarArchivo(String nombre, String datos,String tipo)
 	{
 			String respuesta = "";
 			try
 			{
 				File directorio = new File("archivos");
 				directorio.mkdir();
-
-				archivoSalida = new PrintWriter(new FileWriter("archivos/"+nombre+".txt",false));
-				archivoSalida.println(datos);
+				if (tipo.equals("Texto plano")) {
+					archivoSalida = new PrintWriter(new FileWriter("archivos/"+nombre+".txt",false));
+					archivoSalida.println(datos);
+				}
+				else if (tipo.equals("PDF")) {
+					archivoSalida = new PrintWriter(new FileWriter("archivos/"+nombre+".pdf",false));
+					archivoSalida.println(datos);
+				}
+				else{
+					archivoSalida = new PrintWriter(new FileWriter("archivos/"+nombre+".html",false));
+					String markdown = Processor.process(datos);
+					archivoSalida.println(markdown);
+				}
 				archivoSalida.close();
 				respuesta = "Archivo guardado exitosamente";
 			}
