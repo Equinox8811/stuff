@@ -10,7 +10,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 	private JMenu menuArchivos;
 	private JMenu menuPlantillas;
 	private JMenuItem miPlantillas, miGuardarPlantilla;
-	private JMenuItem miArchivoNuevo, miAbrirArchivo, miSalir; 
+	private JMenuItem miArchivoNuevo, miAbrirArchivo,miVistaPrevia, miSalir; 
 
 	private JTextArea taDatos = new JTextArea();
 	private JPanel panel = new JPanel();
@@ -19,6 +19,8 @@ public class ProyectoIUG extends JFrame implements ActionListener
 	private PlantillaAD plantillaAD = new PlantillaAD(); 
 	private PlantillaIUG plantillaIUG;
 	private EditorIUG editorIUG = new EditorIUG();
+
+	private Server servidor = new Server();
 
 	public ProyectoIUG()
 	{
@@ -33,6 +35,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 
 		miArchivoNuevo = new JMenuItem("Archivo Nuevo");
 		miAbrirArchivo = new JMenuItem("Abrir Archivo");
+		miVistaPrevia = new JMenuItem("Vista previa HTML");
 		miSalir = new JMenuItem("Salir");
 
 		menuPlantillas.add(miPlantillas);
@@ -40,6 +43,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 
 		menuArchivos.add(miArchivoNuevo);
 		menuArchivos.add(miAbrirArchivo);
+		menuArchivos.add(miVistaPrevia);
 		menuArchivos.add(miSalir);
 
 		menuBar.add(menuArchivos);
@@ -51,6 +55,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		miArchivoNuevo.addActionListener(this);
 		miAbrirArchivo.addActionListener(this);
 		miSalir.addActionListener(this);
+		miVistaPrevia.addActionListener(this);
 
 		setJMenuBar(menuBar);
 
@@ -60,6 +65,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		setVisible(true);
 		setSize(700,700);
 		plantillaAD.iniciar();
+		servidor.iniciarServer();
 	}
 
 	public void ocultarPaneles()
@@ -120,6 +126,12 @@ public class ProyectoIUG extends JFrame implements ActionListener
 				setVisible(true);
 		   }
 			
+		}
+
+		if (event.getSource()==miVistaPrevia) 
+		{
+			servidor.consultar(editorIUG.getDatos());
+			servidor.abrirNavegador();
 		}
 		
 	}
