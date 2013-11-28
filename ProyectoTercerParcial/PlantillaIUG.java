@@ -14,7 +14,9 @@ public class PlantillaIUG implements ActionListener
 	private JPanel panel2 = new JPanel();
 	private JButton[] botones;
 
-	public PlantillaIUG(String nombres, int tamano)
+	private String estilo;
+
+	public PlantillaIUG(String nombres, int tamano, String colores)
 	{
 		//JOptionPane.showMessageDialog(null, nombres);
 		StringTokenizer st = new StringTokenizer(nombres,"&");
@@ -31,7 +33,14 @@ public class PlantillaIUG implements ActionListener
 			panel2.add(botones[i]);
 		}
 		panel.add(panel2);
-		panel.updateUI();	
+		panel.updateUI();
+
+		estilo = colores;
+	}
+
+	public void updateEstilo()
+	{
+		editorIUG.setEstilo(estilo);
 	}
 
 	public JPanel getPanel()
@@ -54,6 +63,7 @@ public class PlantillaIUG implements ActionListener
 				//JOptionPane.showMessageDialog(null,botones[i].getName());
 				remove();
 				editorIUG.getPanel().setVisible(true);
+				editorIUG.setEstilo(estilo);
 				panel.add(editorIUG.getPanel());
 				editorIUG.setDatos(plantillaAD.getContenido(botones[i].getName()));
 				editorIUG.setNombre(botones[i].getName());

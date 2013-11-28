@@ -12,7 +12,8 @@ public class EditorIUG implements ActionListener
 	private JPanel panel3 = new JPanel();
 	private JTextArea taDatos = new JTextArea(30,60);
 	private JTextField tfNombre = new JTextField();
-	private JButton bGuardar, bDescartar, bPersonalizar; 
+	private JButton bGuardar, bDescartar; 
+	private Color[] colores = {Color.BLUE, Color.CYAN, Color.RED,Color.GREEN,Color.YELLOW,Color.GRAY,Color.BLACK,Color.WHITE};
 
 	private EditorAD editorAD = new EditorAD();
 
@@ -21,15 +22,12 @@ public class EditorIUG implements ActionListener
 		panelFlow.setLayout(new FlowLayout());
 		panel.setLayout(new GridLayout(2,1));
 		panel2.setLayout(new GridLayout(2,2));
-		panel3.setLayout(new GridLayout(3,2));
+		panel3.setLayout(new GridLayout(2,2));
 
 		bGuardar = new JButton("Guardar Archivo");
 		bGuardar.addActionListener(this);
 		bDescartar = new JButton("Limpiar Campos");
 		bDescartar.addActionListener(this);
-		bPersonalizar = new JButton("Personalizar Editor");
-		bPersonalizar.addActionListener(this);
-
 	
 		panel2.add(new JLabel("Nombre del archivo:  "));
 		panel2.add(tfNombre);
@@ -38,7 +36,6 @@ public class EditorIUG implements ActionListener
 
 		panel3.add(bGuardar);
 		panel3.add(bDescartar);
-		panel3.add(bPersonalizar);
 		panel3.add(new JLabel(""));
 		panel3.add(new JLabel(""));
 
@@ -62,58 +59,36 @@ public class EditorIUG implements ActionListener
 		return panelFlow;
 	}
 
+	public void setEstilo(String opcion)
+	{
+		if (opcion.equals("Predeterminado")) {
+			taDatos.setBackground(Color.WHITE);
+			taDatos.setForeground(Color.BLACK);
+			taDatos.setSelectionColor(new Color(184,207,229));
+		}
+
+		if (opcion.equals("Oscuro")) {
+			taDatos.setBackground(new Color(39,40,34));
+			taDatos.setForeground(Color.WHITE);
+			taDatos.setSelectionColor(Color.WHITE);
+		}
+
+		if (opcion.equals("Solarizado")) {
+			taDatos.setBackground(new Color(4,32,41));
+			taDatos.setForeground(new Color(99,148,150));
+			taDatos.setSelectionColor(new Color(0,0,0));
+		}
+		panelFlow.updateUI();
+
+	}
+
 	public void cambiarColor(int opcion, int color)
 	{
-
-		if(color == 1) 
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.BLUE);
-			if(opcion == 2) taDatos.setForeground(Color.BLUE);
-			if(opcion == 3) taDatos.setSelectionColor(Color.BLUE);
-		}
-		if(color == 2)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.CYAN);
-			if(opcion == 2) taDatos.setForeground(Color.CYAN);
-			if(opcion == 3) taDatos.setSelectionColor(Color.CYAN);
-		}
-		if(color == 3)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.RED);
-			if(opcion == 2) taDatos.setForeground(Color.RED);
-			if(opcion == 3) taDatos.setSelectionColor(Color.RED);
-		}
-		if(color == 4)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.GREEN);
-			if(opcion == 2) taDatos.setForeground(Color.GREEN);
-			if(opcion == 3) taDatos.setSelectionColor(Color.GREEN);
-		}
-		if(color == 5)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.YELLOW);
-			if(opcion == 2) taDatos.setForeground(Color.YELLOW);
-			if(opcion == 3) taDatos.setSelectionColor(Color.YELLOW);
-		}
-		if(color == 6)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.GRAY);
-			if(opcion == 2) taDatos.setForeground(Color.GRAY);
-			if(opcion == 3) taDatos.setSelectionColor(Color.GRAY);
-		}
-		if(color == 7)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.BLACK);
-			if(opcion == 2) taDatos.setForeground(Color.BLACK);
-			if(opcion == 3) taDatos.setSelectionColor(Color.BLACK);
-		}
-		if(color == 8)
-		{
-			if(opcion == 1)	taDatos.setBackground(Color.WHITE);
-			if(opcion == 2) taDatos.setForeground(Color.WHITE);
-			if(opcion == 3) taDatos.setSelectionColor(Color.WHITE);
-		}	
-
+		color = color - 1;
+		if(opcion == 1)	taDatos.setBackground(colores[color]);
+		if(opcion == 2) taDatos.setForeground(colores[color]);
+		if(opcion == 3) taDatos.setSelectionColor(colores[color]);
+		panelFlow.updateUI();
 	}
 
 	public JPanel getPanel()
@@ -173,7 +148,7 @@ public class EditorIUG implements ActionListener
 			tfNombre.setText("");
 		}
 
-		if(event.getSource()==bPersonalizar)
+		/*if(event.getSource()==bPersonalizar)
 		{
 			int opcion = 0;
 			int color = 0;
@@ -211,7 +186,6 @@ public class EditorIUG implements ActionListener
 				}
 			}
 			while(opcion!=4);
-
-		}
+		}*/
 	}
 }

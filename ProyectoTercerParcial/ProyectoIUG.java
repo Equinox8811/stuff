@@ -9,8 +9,10 @@ public class ProyectoIUG extends JFrame implements ActionListener
 	private JMenuBar menuBar;
 	private JMenu menuArchivos;
 	private JMenu menuPlantillas;
+	private JMenu menuConfiguracion;
+	private JMenuItem miArchivoNuevo, miAbrirArchivo,miVistaPrevia, miSalir;
 	private JMenuItem miPlantillas, miGuardarPlantilla;
-	private JMenuItem miArchivoNuevo, miAbrirArchivo,miVistaPrevia, miSalir; 
+	private JMenuItem miPersonalizar;
 
 	private JTextArea taDatos = new JTextArea();
 	private JPanel panel = new JPanel();
@@ -19,8 +21,9 @@ public class ProyectoIUG extends JFrame implements ActionListener
 	private PlantillaAD plantillaAD = new PlantillaAD(); 
 	private PlantillaIUG plantillaIUG;
 	private EditorIUG editorIUG = new EditorIUG();
-
 	private Server servidor = new Server();
+
+	private String colores="Predeterminado";
 
 	public ProyectoIUG()
 	{
@@ -29,6 +32,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		menuBar = new JMenuBar();
 		menuArchivos = new JMenu("Archivo");
 		menuPlantillas = new JMenu("Plantillas");
+		menuConfiguracion = new JMenu("Configuracion");
 
 		miPlantillas = new JMenuItem("Plantillas");
 		miGuardarPlantilla = new JMenuItem("Guardar como Plantilla");
@@ -38,6 +42,8 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		miVistaPrevia = new JMenuItem("Vista previa HTML");
 		miSalir = new JMenuItem("Salir");
 
+		miPersonalizar = new JMenuItem("Personalizar");
+
 		menuPlantillas.add(miPlantillas);
 		menuPlantillas.add(miGuardarPlantilla);
 
@@ -46,8 +52,11 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		menuArchivos.add(miVistaPrevia);
 		menuArchivos.add(miSalir);
 
+		menuConfiguracion.add(miPersonalizar);
+
 		menuBar.add(menuArchivos);
 		menuBar.add(menuPlantillas);
+		menuBar.add(menuConfiguracion);
 
 		miPlantillas.addActionListener(this);
 		miGuardarPlantilla.addActionListener(this);
@@ -56,6 +65,9 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		miAbrirArchivo.addActionListener(this);
 		miSalir.addActionListener(this);
 		miVistaPrevia.addActionListener(this);
+
+		miPersonalizar.addActionListener(this);
+
 
 		setJMenuBar(menuBar);
 
@@ -88,7 +100,7 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		if(event.getSource()==miPlantillas)
 		{
 			ocultarPaneles();
-			plantillaIUG = new PlantillaIUG(plantillaAD.getNombres(), plantillaAD.getTamano());
+			plantillaIUG = new PlantillaIUG(plantillaAD.getNombres(), plantillaAD.getTamano(), colores);
 			plantillaIUG.getPanel().setVisible(true);
 			add(plantillaIUG.getPanel());
 			setVisible(true);
@@ -132,6 +144,24 @@ public class ProyectoIUG extends JFrame implements ActionListener
 		{
 			servidor.consultar(editorIUG.getDatos());
 			servidor.abrirNavegador();
+		}
+
+		if (event.getSource()==miPersonalizar) {
+			/*Object[] valoresPosibles = { "Esquemas Predefinidos", "Personalizados" };
+			Object tipoPersonalizar = JOptionPane.showInputDialog(null,"Tipo de personalizacion", "Input",JOptionPane.INFORMATION_MESSAGE, null,valoresPosibles, valoresPosibles[0]);
+			if (tipoPersonalizar.toString()=="Esquemas Predefinidos")
+			{*/
+			Object[] esquemasPosibles = { "Predeterminado", "Oscuro", "Solarizado" };
+			Object estilo = JOptionPane.showInputDialog(null,"Esquema", "Input",JOptionPane.INFORMATION_MESSAGE, null,esquemasPosibles, esquemasPosibles[0]);
+			try{
+				editorIUG.setEstilo(estilo.toString()); 
+				colores = estilo.toString();
+			}
+			catch(NullPointerException npe)
+			{
+				//pass
+			}
+			//}
 		}
 		
 	}
